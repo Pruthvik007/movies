@@ -1,0 +1,12 @@
+export const CONSTANTS = {
+  MOVIES: "MOVIES",
+  SHOWS: "SHOWS",
+  PEOPLE: "PEOPLE",
+  ALL:"ALL",
+  GENRES: "GENRES",
+  CATEGORY: {
+    TRENDING: "TRENDING",
+    DISCOVER: "DISCOVER",
+    LATEST: "LATEST",
+  },
+};
