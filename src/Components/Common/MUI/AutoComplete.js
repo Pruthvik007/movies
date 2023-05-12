@@ -19,7 +19,7 @@ const AutoComplete = ({ searchFor }) => {
   };
   const search = async () => {
     try {
-      let response = null;
+      let response = {};
       if (searchFor === CONSTANTS.MOVIES) {
         response = await tmdbServices.searchMovieOrShowOrPeopleOrAll(
           END_POINT_OF.SEARCH_MOVIE,
@@ -42,16 +42,14 @@ const AutoComplete = ({ searchFor }) => {
         );
       }
       if (response && response.results && response.results.length > 0) {
-        const results = response.results;
-        const formattedResults = results.map((result) => {
-          return {
-            ...result,
-            label: `${result.title} (${new Date(
-              result.release_date
-            ).getFullYear()})`,
-          };
+        const results = [...response.results];
+        results.forEach((result)=>{
+          result.label=`${result.title ? result.title : result.name} (${new Date(
+            result.release_date || result.first_air_date
+          ).getFullYear()})`;
+          result.customId=result.id;
         });
-        setOptions(formattedResults);        
+        setOptions(results);        
       }
     } catch (error) {
       console.log("error: ", error);
@@ -67,14 +65,12 @@ const AutoComplete = ({ searchFor }) => {
   }, [searchTerm]);
 
   const onSelection = (option) => {
-    console.log('option',option);
-    
     setValue(option)
     if (option) {
       if (option.media_type === "movie") {
-        navigate(`/movie/${option.id}`);
+        navigate(`/movie/${option.customId}`);
       } else if (option.media_type === "tv") {
-        navigate(`/show/${option.id}`);
+        navigate(`/show/${option.customId}`);
       }
     }
   };
@@ -124,3 +120,6 @@ export default AutoComplete;
 //   "vote_average": 8.208,
 //   "vote_count": 18528
 // },
+
+
+
