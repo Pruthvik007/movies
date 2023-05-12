@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import Image from "./MUI/Image";
+import {CONSTANTS} from "../../Helpers/Constants";
 const BasicDetails = ({ details }) => {
   return (
     <div id="mainCard">
@@ -16,7 +17,7 @@ const BasicDetails = ({ details }) => {
         <Stack direction="row" spacing={2}>
           <Paper>
             <Image
-              src={process.env.REACT_APP_API_IMAGE_URL + details.poster_path}
+              src={CONSTANTS.ENV.REACT_APP_API_IMAGE_URL + details.poster_path}
               alt={details.title}
             />
 
@@ -46,19 +47,20 @@ const BasicDetails = ({ details }) => {
                 Overview
                 <p>{details.overview}</p>
               </div>
-            </Card><br/>
+            </Card>
+            <br />
             <Card>
-            <ButtonGroup variant="text" aria-label="text button group">
-              {details?.genres?.map((genre) => {
-                return <Button key={genre.id}>{genre.name}</Button>;
-              })}
-            </ButtonGroup>
-            <div>
-              Duration:{" "}
-              {details.runtime > 60
-                ? Math.round((details.runtime / 60)*10)/10 + " hrs"
-                : details.runtime + " mins"}
-            </div>
+              <ButtonGroup variant="text" aria-label="text button group">
+                {details?.genres?.map((genre) => {
+                  return <Button key={genre.id}>{genre.name}</Button>;
+                })}
+              </ButtonGroup>
+              <div>
+                Duration:{" "}
+                {details.runtime > 60
+                  ? Math.round((details.runtime / 60) * 10) / 10 + " hrs"
+                  : details.runtime + " mins"}
+              </div>
             </Card>
           </Container>
         </Stack>

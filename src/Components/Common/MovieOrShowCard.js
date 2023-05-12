@@ -11,7 +11,7 @@ const MovieOrShowCard = ({ details, type }) => {
         <div>
           <img
             className="img-fluid"
-            src={process.env.REACT_APP_API_IMAGE_URL + details.poster_path}
+            src={CONSTANTS.ENV.REACT_APP_API_IMAGE_URL + details.poster_path}
             alt={details.title}
             loading="lazy"
           />

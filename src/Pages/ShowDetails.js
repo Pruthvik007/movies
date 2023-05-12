@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Image from "../Components/Common/MUI/Image";
 import BackButton from "../Components/Common/BackButton";
+import { CONSTANTS } from "../Helpers/Constants";
 const ShowDetails = () => {
   const params = useParams();
   const tMDBServices = TMDBServices();
@@ -40,7 +41,7 @@ const ShowDetails = () => {
           <Paper>
             <Image
               src={
-                process.env.REACT_APP_API_IMAGE_URL + showDetails.poster_path
+                CONSTANTS.ENV.REACT_APP_API_IMAGE_URL + showDetails.poster_path
               }
               alt={showDetails.title}
             />

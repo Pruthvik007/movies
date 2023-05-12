@@ -51,7 +51,7 @@ const AutoComplete = ({ searchFor }) => {
             ).getFullYear()})`,
           };
         });
-        setOptions(formattedResults);
+        setOptions(formattedResults);        
       }
     } catch (error) {
       console.log("error: ", error);
@@ -67,6 +67,8 @@ const AutoComplete = ({ searchFor }) => {
   }, [searchTerm]);
 
   const onSelection = (option) => {
+    console.log('option',option);
+    
     setValue(option)
     if (option) {
       if (option.media_type === "movie") {

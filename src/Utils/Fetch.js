@@ -1,3 +1,5 @@
+import { CONSTANTS } from "../Helpers/Constants";
+
 // Example POST method implementation:
 export async function fetchApi(url = "", method="GET", data = undefined) {
   // Default options are marked with *
@@ -9,7 +11,7 @@ export async function fetchApi(url = "", method="GET", data = undefined) {
     headers: {
       "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+      Authorization: `Bearer ${CONSTANTS.ENV.REACT_APP_API_KEY}`,
     },
     redirect: "follow", // manual, *follow, error
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
