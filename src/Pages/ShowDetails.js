@@ -35,7 +35,7 @@ const ShowDetails = () => {
 
   return (
     <div id="mainCard">
-      <BackButton link={"/"} />
+      <BackButton link={"/movies"} />
       <div>
         <Stack direction="row" spacing={2}>
           <Paper>

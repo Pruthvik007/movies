@@ -27,7 +27,7 @@ const MovieDetails = () => {
   return (
     <div >
       <div>
-        <BackButton link={"/"} />
+        <BackButton link={"/movies"} />
       </div>
       <div>
         <BasicDetails details={movieDetails} />
