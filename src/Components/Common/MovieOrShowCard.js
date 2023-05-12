@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { CONSTANTS } from "../../Helpers/Constants";
 
 const MovieOrShowCard = ({ details, type }) => {

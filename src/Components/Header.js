@@ -96,15 +96,19 @@ export default function Header({ setType }) {
               </Drawer>
             </React.Fragment>
           </div>
-
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            FLIX-ZON
-          </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              FLIX-ZON
+            </Typography>
           <AutoComplete searchFor={CONSTANTS.ALL} />
         </Toolbar>
       </AppBar>

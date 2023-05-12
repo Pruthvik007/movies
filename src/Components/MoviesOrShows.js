@@ -11,7 +11,7 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
   const [discoverData, setDiscoverData] = useState({ movies: [], shows: [] });
   const [trendingData, setTrendingData] = useState({ movies: [], shows: [] });
   const [latestData, setLatestData] = useState({ movies: [], shows: [] });
-  const [data, setData] = useState({type:'',data:[]});
+  const [data, setData] = useState({ type: "", data: [] });
   const [currentPage, setCurrentPage] = useState(1);
   const { setBackDropState } = useBackDrop();
   const tMDBServices = TMDBServices();
@@ -20,13 +20,13 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
     if (type === CONSTANTS.MOVIES) {
       switch (category) {
         case CONSTANTS.CATEGORY.DISCOVER:
-          setData({type:CONSTANTS.MOVIES,data:[...discoverData.movies]});
+          setData({ type: CONSTANTS.MOVIES, data: [...discoverData.movies] });
           break;
         case CONSTANTS.CATEGORY.TRENDING:
-          setData({type:CONSTANTS.MOVIES,data:[...trendingData.movies]});
+          setData({ type: CONSTANTS.MOVIES, data: [...trendingData.movies] });
           break;
         case CONSTANTS.CATEGORY.LATEST:
-          setData({type:CONSTANTS.MOVIES,data:[...latestData.movies]});
+          setData({ type: CONSTANTS.MOVIES, data: [...latestData.movies] });
           break;
         default:
           break;
@@ -34,13 +34,13 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
     } else if (type === CONSTANTS.SHOWS) {
       switch (category) {
         case CONSTANTS.CATEGORY.DISCOVER:
-          setData({type:CONSTANTS.SHOWS,data:[...discoverData.shows]});
+          setData({ type: CONSTANTS.SHOWS, data: [...discoverData.shows] });
           break;
         case CONSTANTS.CATEGORY.TRENDING:
-          setData({type:CONSTANTS.SHOWS,data:[...trendingData.shows]});
+          setData({ type: CONSTANTS.SHOWS, data: [...trendingData.shows] });
           break;
         case CONSTANTS.CATEGORY.LATEST:
-          setData({type:CONSTANTS.SHOWS,data:[...latestData.shows]});
+          setData({ type: CONSTANTS.SHOWS, data: [...latestData.shows] });
           break;
         default:
           break;
@@ -53,6 +53,9 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
   }, [discoverData, trendingData, latestData]);
 
   const find = (page) => {
+    if(page>=500){
+      return;
+    }
     setBackDropState(true);
     switch (endPoint) {
       case END_POINT_OF.DISCOVER_MOVIES:
@@ -78,6 +81,19 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
     }
   };
 
+  const addOnlyNewData = async (type, results, state, setState) => {
+    const newMedia = results.filter((result) => {
+      const index = state[type].findIndex((media) => media.id === result.id);
+      return index === -1;
+    });
+    if (newMedia.length > 0) {
+      await setState({
+        ...state,
+        [type]: [...state[type], ...newMedia],
+      });
+    }
+  };
+
   const discoverMovies = (page) => {
     tMDBServices
       .discoverMoviesOrShows(END_POINT_OF.DISCOVER_MOVIES, [
@@ -91,10 +107,12 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         },
       ])
       .then((response) => {
-        setDiscoverData({
-          ...discoverData,
-          movies: [...discoverData.movies, ...response.results],
-        });
+        addOnlyNewData(
+          "movies",
+          response.results,
+          discoverData,
+          setDiscoverData
+        );
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -117,10 +135,12 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         },
       ])
       .then((response) => {
-        setDiscoverData({
-          ...discoverData,
-          shows: [...discoverData.shows, ...response.results],
-        });
+        addOnlyNewData(
+          "shows",
+          response.results,
+          discoverData,
+          setDiscoverData
+        );
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -143,10 +163,7 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         },
       ])
       .then((response) => {
-        setLatestData({
-          ...latestData,
-          movies: [...latestData.movies, ...response.results],
-        });
+        addOnlyNewData("movies", response.results, latestData, setLatestData);
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -169,10 +186,7 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         },
       ])
       .then((response) => {
-        setLatestData({
-          ...latestData,
-          shows: [...latestData.shows, ...response.results],
-        });
+        addOnlyNewData("shows", response.results, latestData, setLatestData);
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -195,10 +209,12 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         },
       ])
       .then((response) => {
-        setTrendingData({
-          ...trendingData,
-          movies: [...trendingData.movies, ...response.results],
-        });
+        addOnlyNewData(
+          "movies",
+          response.results,
+          trendingData,
+          setTrendingData
+        );
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -221,10 +237,12 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         },
       ])
       .then((response) => {
-        setTrendingData({
-          ...trendingData,
-          shows: [...trendingData.shows, ...response.results],
-        });
+        addOnlyNewData(
+          "shows",
+          response.results,
+          trendingData,
+          setTrendingData
+        );
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -233,18 +251,27 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
         setBackDropState(false);
       });
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleScroll = () => {
-    let userScrollHeight = window.innerHeight + window.scrollY;
-    let windowBottomHeight = document.documentElement.offsetHeight;
-    if (userScrollHeight >= windowBottomHeight - 500) {
+  const handleScroll = debounce(() => {
+    const isScrollingDown = window.pageYOffset > prevScrollY;
+    const isNearHalfway = window.innerHeight + window.pageYOffset >= document.body.offsetHeight / 2;
+    if (isScrollingDown && isNearHalfway) {
       setCurrentPage((page) => page + 1);
     }
-  };
+    prevScrollY = window.pageYOffset;
+  }, 100);
+  let prevScrollY = window.pageYOffset;
+  window.addEventListener('scroll', handleScroll);
+  function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        fn.apply(this, args);
+      }, delay);
+    };
+  }
+  
+  
 
   useEffect(() => {
     find(currentPage);
@@ -253,22 +280,23 @@ const MoviesOrShows = ({ endPoint, type, category }) => {
   return (
     <React.Fragment>
       <ScrollButton />
-    <div className="container-fluid">
-      <div className="row">
-        {data && data.data &&
-          data.data.length > 0 &&
-          data.data.map((movieOrShow) => {
-            return (
-              <div
-                key={movieOrShow.id}
-                className="col-xs-1 col-sm-6 col-md-4 col-lg-3 col-xl-2 p-1"
-              >
-                <MovieOrShowCard details={movieOrShow} type={data.type} />
-              </div>
-            );
-          })}
+      <div className="container-fluid">
+        <div className="row">
+          {data &&
+            data.data &&
+            data.data.length > 0 &&
+            data.data.map((movieOrShow) => {
+              return (
+                <div
+                  key={movieOrShow.id}
+                  className="col-xs-1 col-sm-6 col-md-4 col-lg-3 col-xl-2 p-1"
+                >
+                  <MovieOrShowCard details={movieOrShow} type={data.type} />
+                </div>
+              );
+            })}
+        </div>
       </div>
-    </div>
     </React.Fragment>
   );
 };
