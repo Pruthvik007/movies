@@ -17,7 +17,7 @@ export default function Dropdown({
 
   return (
     <FormControl
-      sx={{ m: 1, minWidth: 120, height: 40, width: "100%" }}
+      sx={{ m: 1, minWidth: 120, height: 40, maxWidth: "100%" }}
       size="small"
     >
       {

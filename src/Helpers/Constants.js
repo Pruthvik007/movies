@@ -14,7 +14,7 @@ export const CONSTANTS = {
     REACT_APP_API_BASE_URL: "https://api.themoviedb.org/3/",
     REACT_APP_API_IMAGE_URL: "https://image.tmdb.org/t/p/original",
   },
-  CATEGORIES: [
+  GENRES_LIST: [
     { value: null, label: "ALL" },
     { value: 1, label: "ANIMATION" },
     { value: 2, label: "ADVENTURE" },

@@ -8,11 +8,14 @@ import TabPanel, { a11yProps } from "../Components/Common/MUI/TabPanel";
 import Header from "../Components/Header";
 import { CONSTANTS } from "../Helpers/Constants";
 import { useTheme } from "@mui/material";
+import Dropdown from "../Components/Common/MUI/Dropdown";
 const HomePage = () => {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [type, setType] = React.useState(CONSTANTS.MOVIES);
+  const [genre, setGenre] = React.useState(CONSTANTS.GENRES_LIST[0]);
   const handleChange = (event, newValue) => {
+    setGenre(CONSTANTS.GENRES_LIST[0]);
     setValue(newValue);
   };
 
@@ -62,7 +65,7 @@ const HomePage = () => {
         className="tabs-container"
         style={{ backgroundColor: theme.palette.background.paper }}
       >
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider", display: "flex" }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -75,6 +78,7 @@ const HomePage = () => {
               .map((tab, index) => {
                 return (
                   <Tab
+                    sx={{ paddingBottom: "1.2rem", paddingTop: "1.2rem" }}
                     disabled={tab.category === CONSTANTS.CATEGORY.LATEST}
                     key={tab.label}
                     label={tab.label}
@@ -83,6 +87,17 @@ const HomePage = () => {
                 );
               })}
           </Tabs>
+          <div style={{ position: "absolute", right: "0px" }}>
+            <Dropdown
+              fieldName={"genre"}
+              label={"Genres"}
+              onChange={(option) => {
+                setGenre(option);
+              }}
+              options={CONSTANTS.GENRES_LIST}
+              value={genre}
+            />
+          </div>
         </Box>
       </div>
       {tabList
