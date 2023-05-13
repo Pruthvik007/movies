@@ -80,6 +80,7 @@ const HomePage = () => {
                   <Tab
                     sx={{ paddingBottom: "1.2rem", paddingTop: "1.2rem" }}
                     disabled={tab.category === CONSTANTS.CATEGORY.LATEST}
+                    hidden={tab.category === CONSTANTS.CATEGORY.LATEST}
                     key={tab.label}
                     label={tab.label}
                     {...a11yProps(index)}
