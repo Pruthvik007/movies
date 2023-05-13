@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import { Card, Typography } from "@mui/material";
+import { Card } from "@mui/material";
 import { CONSTANTS } from "../../Helpers/Constants";
 
 const MovieOrShowCard = ({ details, type }) => {
@@ -23,7 +23,7 @@ const MovieOrShowCard = ({ details, type }) => {
           readOnly
           max={10}
         />
-        <p>{details.vote_average}/10</p>
+        <p>{Math.round(details.vote_average * 10) / 10}/10</p>
       </Card>
     </Link>
   );

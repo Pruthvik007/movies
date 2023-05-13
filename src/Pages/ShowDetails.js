@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { Grid, Typography, Card, CardMedia, Paper } from "@mui/material";
+import { Grid, Typography, Paper } from "@mui/material";
 import { useParams } from "react-router";
 import TMDBServices from "../Services/TMDBServices";
 import { END_POINT_OF } from "../Utils/ApiEndPoints";
@@ -12,17 +12,12 @@ const Container = styled(Grid)({
   margin: "20px",
 });
 
-const StyledCard = styled(Card)({
-  maxWidth: "500px",
-  margin: "auto",
-});
-
 const ShowDetails = () => {
   const params = useParams();
   const tMDBServices = TMDBServices();
   const [showDetails, setShowDetails] = React.useState(null);
 
-  const find = () => {
+  const find = React.useCallback(() => {
     tMDBServices
       .findMovieOrShow(`${END_POINT_OF.DETAILS_OF_SHOWS}${params.id}`)
       .then((response) => {
@@ -31,10 +26,10 @@ const ShowDetails = () => {
       .catch((err) => {
         console.log("error: ", err);
       });
-  };
+  }, [params.id, tMDBServices]);
   React.useEffect(() => {
     find();
-  }, []);
+  }, [find]);
 
   return (
     <React.Fragment>
@@ -43,7 +38,7 @@ const ShowDetails = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={4}>
               <img
-                src={`https://image.tmdb.org/t/p/w500${showDetails.poster_path}`}
+                src={`${CONSTANTS.ENV.REACT_APP_API_IMAGE_URL}${showDetails.poster_path}`}
                 alt={showDetails.name}
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
@@ -81,13 +76,19 @@ const ShowDetails = () => {
                 Networks:
                 {showDetails.networks.map((network) => network.name).join(", ")}
               </Typography>
-              <Grid justifyContent="center" alignItems="center" container spacing={2} sx={{ p: 2 }}>
-                  {showDetails.production_companies.map((company) => (
-                    <Grid item xs={12} sm={6} md={4} key={company.id}>
-                    <Paper sx={{ p: 2 }}>{company.name}
-                    </Paper></Grid>
-                  ))}
-                </Grid>
+              <Grid
+                justifyContent="center"
+                alignItems="center"
+                container
+                spacing={2}
+                sx={{ p: 2 }}
+              >
+                {showDetails.production_companies.map((company) => (
+                  <Grid item xs={12} sm={6} md={4} key={company.id}>
+                    <Paper sx={{ p: 2 }}>{company.name}</Paper>
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
         </Container>

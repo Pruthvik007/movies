@@ -16,19 +16,35 @@ export default function Dropdown({
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-select-small-label">{value.label}</InputLabel>
+    <FormControl
+      sx={{ m: 1, minWidth: 120, height: 40, width: "100%" }}
+      size="small"
+    >
+      {
+        <InputLabel
+          shrink={value.label.length > 0}
+          id="demo-select-small-label"
+        >
+          {label}
+        </InputLabel>
+      }{" "}
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
         value={value}
-        label={value.label}
+        label={label}
         name={fieldName}
         onChange={handleChange}
+        sx={{ width: "100%" }}
+        MenuProps={{
+          sx: {
+            width: "100%",
+            maxWidth: "100%",
+            top: "45px",
+            left: 0,
+          },
+        }}
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
         {options &&
           options.length > 0 &&
           options.map((option) => {

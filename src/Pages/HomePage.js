@@ -7,7 +7,9 @@ import { END_POINT_OF } from "../Utils/ApiEndPoints";
 import TabPanel, { a11yProps } from "../Components/Common/MUI/TabPanel";
 import Header from "../Components/Header";
 import { CONSTANTS } from "../Helpers/Constants";
+import { useTheme } from "@mui/material";
 const HomePage = () => {
+  const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [type, setType] = React.useState(CONSTANTS.MOVIES);
   const handleChange = (event, newValue) => {
@@ -54,25 +56,35 @@ const HomePage = () => {
   ];
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box className="homePage" sx={{ width: "100%", maxWidth: "100%" }}>
       <Header setType={setType} />
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="Movies and Shows"
-        >
-          {tabList
-            .filter((tab) => {
-              return tab.type === type;
-            })
-            .map((tab, index) => {
-              return (
-                <Tab disabled={tab.category===CONSTANTS.CATEGORY.LATEST} key={tab.label} label={tab.label} {...a11yProps(index)} />
-              );
-            })}
-        </Tabs>
-      </Box>
+      <div
+        className="tabs-container"
+        style={{ backgroundColor: theme.palette.background.paper }}
+      >
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="Movies and Shows"
+          >
+            {tabList
+              .filter((tab) => {
+                return tab.type === type;
+              })
+              .map((tab, index) => {
+                return (
+                  <Tab
+                    disabled={tab.category === CONSTANTS.CATEGORY.LATEST}
+                    key={tab.label}
+                    label={tab.label}
+                    {...a11yProps(index)}
+                  />
+                );
+              })}
+          </Tabs>
+        </Box>
+      </div>
       {tabList
         .filter((tab) => {
           return tab.type === type;

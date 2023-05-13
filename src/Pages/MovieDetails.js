@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -26,7 +26,7 @@ const MovieDetailPage = () => {
   const tMDBServices = TMDBServices();
   const [movieDetails, setMovieDetails] = useState(null);
 
-  const find = () => {
+  const find = useCallback(() => {
     tMDBServices
       .findMovieOrShow(`${END_POINT_OF.DETAILS_OF_MOVIE}${params.id}`)
       .then((response) => {
@@ -34,11 +34,14 @@ const MovieDetailPage = () => {
       })
       .catch((err) => {
         console.log("error: ", err);
+      })
+      .finally(() => {
       });
-  };
+  }, [params.id, tMDBServices]);
+
   useEffect(() => {
     find();
-  }, []);
+  }, [find]);
   const {
     title,
     poster_path,
@@ -109,8 +112,8 @@ const MovieDetailPage = () => {
                 <Grid container spacing={2} sx={{ p: 2 }}>
                   {production_companies.map((company) => (
                     <Grid item xs={12} sm={6} md={4} key={company.id}>
-                    <Paper sx={{ p: 2 }}>{company.name}
-                    </Paper></Grid>
+                      <Paper sx={{ p: 2 }}>{company.name}</Paper>
+                    </Grid>
                   ))}
                 </Grid>
               </Box>
@@ -145,7 +148,7 @@ const MovieDetailPage = () => {
               </Box>
             </Grid>
           </Grid>
-          <BackButton link={'/movies'}/>
+          <BackButton link={"/movies"} />
         </Box>
       )}
     </React.Fragment>

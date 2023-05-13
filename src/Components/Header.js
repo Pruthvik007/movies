@@ -78,38 +78,31 @@ export default function Header({ setType }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <div>
-            <React.Fragment>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="open drawer"
-                sx={{ mr: 2 }}
-                onClick={toggleDrawer()}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Drawer anchor={"left"} open={state} onClose={toggleDrawer()}>
-                {list()}
-              </Drawer>
-            </React.Fragment>
-          </div>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+              onClick={toggleDrawer()}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Drawer anchor={"left"} open={state} onClose={toggleDrawer()}>
+              {list()}
+            </Drawer>
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
             >
               FLIX-ZON
             </Typography>
-          <AutoComplete searchFor={CONSTANTS.ALL} />
+          </Box>
+              <AutoComplete searchFor={CONSTANTS.ALL}/>
         </Toolbar>
       </AppBar>
     </Box>
