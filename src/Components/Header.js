@@ -93,16 +93,16 @@ export default function Header({ setType }) {
             <Drawer anchor={"left"} open={state} onClose={toggleDrawer()}>
               {list()}
             </Drawer>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            >
-              FLIX-ZON
-            </Typography>
           </Box>
-              <AutoComplete searchFor={CONSTANTS.ALL}/>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          >
+            FLIX-ZON
+          </Typography>
+          <AutoComplete searchFor={CONSTANTS.ALL} />
         </Toolbar>
       </AppBar>
     </Box>

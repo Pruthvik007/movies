@@ -18,12 +18,11 @@ const MovieOrShowCard = ({ details, type }) => {
         </div>
         <Rating
           name="read-only"
-          value={details.vote_average}
+          value={details.vote_average / 2}
           precision={0.5}
           readOnly
-          max={10}
         />
-        <p>{Math.round(details.vote_average * 10) / 10}/10</p>
+        <p>{Math.round((details.vote_average / 2) * 10) / 10}/5</p>
       </Card>
     </Link>
   );

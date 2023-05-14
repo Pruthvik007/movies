@@ -8,11 +8,12 @@ export const QUERY_TYPE = {
   },
   PAGE_NUMBER: "page",
   LANGUAGE: "language",
-  LANGUAGE_VALUES:{
-    ENGLISH:"en"
+  LANGUAGE_VALUES: {
+    ENGLISH: "en",
   },
   REGION: "region",
   YEAR: "year",
   INCLUDE_ADULT: "include_adult",
-  QUERY:'query'
+  QUERY: "query",
+  WITH_GENRES: "with_genres",
 };

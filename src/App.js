@@ -1,6 +1,6 @@
 import "./App.css";
 import Router from "./Router";
-import BackDropProvider from "./Helpers/Context";
+import BackDropProvider, { GenresProvider } from "./Helpers/Context";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 const darkTheme = createTheme({
@@ -10,14 +10,16 @@ const darkTheme = createTheme({
 });
 function App() {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <div className="App">
-        <BackDropProvider>
-          <Router />
-        </BackDropProvider>
-      </div>
-    </ThemeProvider>
+    <GenresProvider>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <div className="App">
+          <BackDropProvider>
+            <Router />
+          </BackDropProvider>
+        </div>
+      </ThemeProvider>
+    </GenresProvider>
   );
 }
 

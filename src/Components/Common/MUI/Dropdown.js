@@ -40,6 +40,7 @@ export default function Dropdown({
           sx: {
             width: "100%",
             maxWidth: "100%",
+            maxHeight: "50%",
             top: "45px",
             left: 0,
           },

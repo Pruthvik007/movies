@@ -23,33 +23,56 @@ const AutoComplete = ({ searchFor }) => {
       if (searchFor === CONSTANTS.MOVIES) {
         response = await tmdbServices.searchMovieOrShowOrPeopleOrAll(
           END_POINT_OF.SEARCH_MOVIE,
-          [{ key: QUERY_TYPE.QUERY, value: searchTerm },{key:QUERY_TYPE.SORT_BY,value:QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC}]
+          [
+            { key: QUERY_TYPE.QUERY, value: searchTerm },
+            {
+              key: QUERY_TYPE.SORT_BY,
+              value: QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC,
+            },
+          ]
         );
       } else if (searchFor === CONSTANTS.SHOWS) {
         response = await tmdbServices.searchMovieOrShowOrPeopleOrAll(
           END_POINT_OF.SEARCH_SHOWS,
-          [{ key: QUERY_TYPE.QUERY, value: searchTerm },{key:QUERY_TYPE.SORT_BY,value:QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC}]
+          [
+            { key: QUERY_TYPE.QUERY, value: searchTerm },
+            {
+              key: QUERY_TYPE.SORT_BY,
+              value: QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC,
+            },
+          ]
         );
       } else if (searchFor === CONSTANTS.PEOPLE) {
         response = await tmdbServices.searchMovieOrShowOrPeopleOrAll(
           END_POINT_OF.SEARCH_PERSON,
-          [{ key: QUERY_TYPE.QUERY, value: searchTerm },{key:QUERY_TYPE.SORT_BY,value:QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC}]
+          [
+            { key: QUERY_TYPE.QUERY, value: searchTerm },
+            {
+              key: QUERY_TYPE.SORT_BY,
+              value: QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC,
+            },
+          ]
         );
       } else if (searchFor === CONSTANTS.ALL) {
         response = await tmdbServices.searchMovieOrShowOrPeopleOrAll(
           END_POINT_OF.SEARCH_ALL,
-          [{ key: QUERY_TYPE.QUERY, value: searchTerm },{key:QUERY_TYPE.SORT_BY,value:QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC}]
+          {
+            [QUERY_TYPE.QUERY]: searchTerm,
+            [QUERY_TYPE.SORT_BY]: QUERY_TYPE.SORT_BY_VALUES.POPULARITY_DESC,
+          }
         );
       }
       if (response && response.results && response.results.length > 0) {
         const results = [...response.results];
-        results.forEach((result)=>{
-          result.label=`${result.title ? result.title : result.name} (${new Date(
+        results.forEach((result) => {
+          result.label = `${
+            result.title ? result.title : result.name
+          } (${new Date(
             result.release_date || result.first_air_date
           ).getFullYear()})`;
-          result.customId=result.id;
+          result.customId = result.id;
         });
-        setOptions(results);        
+        setOptions(results);
       }
     } catch (error) {
       console.log("error: ", error);
@@ -65,7 +88,7 @@ const AutoComplete = ({ searchFor }) => {
   }, [searchTerm]);
 
   const onSelection = (option) => {
-    setValue(option)
+    setValue(option);
     if (option) {
       if (option.media_type === "movie") {
         navigate(`/movie/${option.customId}`);
@@ -91,7 +114,7 @@ const AutoComplete = ({ searchFor }) => {
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label={"Search"} />}
         getOptionLabel={(option) => option.label || ""}
-        isOptionEqualToValue={(option)=>option.id=value.id}
+        isOptionEqualToValue={(option) => (option.id = value.id)}
       />
     </div>
   );
@@ -120,6 +143,3 @@ export default AutoComplete;
 //   "vote_average": 8.208,
 //   "vote_count": 18528
 // },
-
-
-
