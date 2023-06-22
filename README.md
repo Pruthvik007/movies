@@ -1,7 +1,7 @@
 # App To View Movies and TV Shows
 # View At https://pruthvik007.github.io/movies
 
-The Movie and TV Show Browser is a React application that provides users with an intuitive interface to view and explore a vast collection of movies and TV shows. With this application, users can filter the content based on various categories, ensuring a personalized and tailored viewing experience. The application incorporates a range of modern web development concepts and libraries, including Fetch API, Context API, React Hooks, component reusability, Material UI, and React Routing.
+This React application provides users with an intuitive interface to view and explore a vast collection of movies and TV shows. With this application, users can filter the content based on various categories, ensuring a personalized and tailored viewing experience. The application incorporates a range of modern web development concepts and libraries, including Fetch API, Context API, React Hooks, component reusability, Material UI, and React Routing.
 
 ## Features
 
